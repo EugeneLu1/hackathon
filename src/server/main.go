@@ -12,16 +12,10 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type Response struct {
-	ID    string  `json:"id"`
-	Score float64 `json:"score"`
-	Name  string  `json:"name"`
-}
-
 type Question struct {
-	Title     string     `json:"title"`
-	ID        string     `json:"id"`
-	Responses []Response `json:"responses"`
+	Title string  `json:"title"`
+	ID    string  `json:"id"`
+	Score float64 `json: "relevance"`
 }
 
 type GetResponse struct {
@@ -90,38 +84,27 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 		log.Error().Err(err).Msgf("Failed to unmarshal JSON")
 	}
 
+	secondJSONFile, err := os.Open("./echo_output.json")
+	secondBytes, _ := ioutil.ReadAll(secondJSONFile)
+
+	var secondOutputJSON OutputJSON
+	if err := json.Unmarshal(secondBytes, &secondOutputJSON); err != nil {
+		log.Error().Err(err).Msgf("Failed to unmarshal JSON")
+	}
+
+	log.Info().Msgf("2nd output %+v ", secondOutputJSON)
+
 	getResponse := GetResponse{
 		Questions: []Question{
 			{
 				ID:    uuid.New().String(),
 				Title: "How do you like your Amazon Kindle?",
-				Responses: []Response{
-					{
-						ID:    uuid.New().String(),
-						Score: outputJSON.Relevance.One,
-						Name:  "Response 1",
-					},
-					{
-						ID:    uuid.New().String(),
-						Score: outputJSON.Relevance.Two,
-						Name:  "Response 2",
-					},
-					{
-						ID:    uuid.New().String(),
-						Score: outputJSON.Relevance.Three,
-						Name:  "Response 3",
-					},
-					{
-						ID:    uuid.New().String(),
-						Score: outputJSON.Relevance.Four,
-						Name:  "Response 4",
-					},
-					{
-						ID:    uuid.New().String(),
-						Score: outputJSON.Relevance.Five,
-						Name:  "Response 5",
-					},
-				},
+				Score: (outputJSON.Relevance.One + outputJSON.Relevance.Two + outputJSON.Relevance.Three + outputJSON.Relevance.Four + outputJSON.Relevance.Five) / 5,
+			},
+			{
+				ID:    uuid.New().String(),
+				Title: "How do you like your Amazon Echo",
+				Score: (secondOutputJSON.Relevance.One + secondOutputJSON.Relevance.Two + secondOutputJSON.Relevance.Three + secondOutputJSON.Relevance.Four + secondOutputJSON.Relevance.Five) / 5,
 			},
 		},
 	}
