@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"os/exec"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -37,7 +38,17 @@ func JSON(w http.ResponseWriter, r *http.Request, status int, v interface{}) {
 }
 
 func getHandler(w http.ResponseWriter, r *http.Request) {
-	log.Info().Msg("request received")
+	log.Info().Msg("GET request received")
+	cmd := exec.Command("./test.sh")
+	out, err := cmd.Output()
+	if err != nil {
+		log.Error().Err(err).Msgf("An Error occured: %+v", err)
+		JSON(w, r, 400, nil)
+		return
+	}
+	log.Info().Msgf("output: %s", out)
+
+	// TODO: run python script and pipe output to response json
 
 	getResponse := GetResponse{
 		Survey: Survey{
@@ -55,12 +66,16 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 	JSON(w, r, 200, getResponse)
+}
 
+func postHandler(w http.ResponseWriter, r *http.Request) {
+	log.Info().Msg("POST request received")
 }
 
 func main() {
 	router := mux.NewRouter().StrictSlash((true))
 	router.HandleFunc("/", getHandler).Methods(("GET"))
+	router.HandleFunc("/", postHandler).Methods(("POST"))
 
 	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Error().Err(err).Msg(("failed to start http server"))
