@@ -13,6 +13,7 @@ import (
 type Question struct {
 	ID    string `json:"id"`
 	Score int    `json:"score"`
+	Name  string `json:"name"`
 }
 
 type Survey struct {
@@ -57,10 +58,12 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 				{
 					ID:    uuid.New().String(),
 					Score: 10,
+					Name:  "Question 1 Placeholder",
 				},
 				{
 					ID:    uuid.New().String(),
 					Score: 8,
+					Name:  "Question 2 Placeholder",
 				},
 			},
 		},
