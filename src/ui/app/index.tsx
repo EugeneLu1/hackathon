@@ -131,7 +131,7 @@ export const App = ({
               <TableRow className={classes.tableHeaders}>
                 {getTableHeader(
                   "id",
-                  SortType.NUMBER_SORT_TYPE,
+                  SortType.TEXT_SORT_TYPE,
                   tableHeadProps,
                   "SurveyId"
                 )}

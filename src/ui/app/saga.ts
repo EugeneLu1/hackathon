@@ -5,8 +5,7 @@ import { getSurveysSuccess, getSurveysFailure } from "./actions";
 
 export function* getSurveys() {
   try {
-    let surveys = ["yo"];
-    surveys = yield call(fetch, "urlstub");
+    const surveys = yield call(fetch, "urlstub");
     yield put(getSurveysSuccess(surveys));
   } catch (err) {
     yield put(getSurveysFailure());
