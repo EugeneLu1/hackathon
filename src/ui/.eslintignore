@@ -1,0 +1,7 @@
+coverage
+build
+node_modules
+stats.json
+docs
+internals
+server

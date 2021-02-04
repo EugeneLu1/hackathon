@@ -1,0 +1,7 @@
+{
+  "base_url": "http://localhost:3030",
+  "uilibrary": {
+    "base_url": "https://static.global.visioncritical.com/UILibrary",
+    "version": "1.6.10"
+  }
+}

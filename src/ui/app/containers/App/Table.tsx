@@ -1,13 +1,4 @@
-import React, { useEffect } from "react";
-import { createStructuredSelector } from "reselect";
-import { compose } from "redux";
-import { connect } from "react-redux";
-
-import { injectReducer, injectSaga } from "redux-injectors";
-
-import reducer from "./reducer";
-import saga from "./saga";
-import { ContainerState } from "./types";
+import React from 'react';
 import {
   Box,
   makeStyles,
@@ -20,27 +11,25 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
-} from "@material-ui/core";
-import { SortOrder, SortType } from "./constants";
-import makeSelectApp from "./selectors";
-import { getSurveys, sortSurveys } from "./actions";
+} from '@material-ui/core';
+import { SortOrder, SortType } from './constants';
 
 const useStyles = makeStyles(() => ({
   popoverButton: {
-    textTransform: "none",
-    display: "block",
-    width: "100%",
-    textAlign: "left",
+    textTransform: 'none',
+    display: 'block',
+    width: '100%',
+    textAlign: 'left',
   },
   table: {
     minWidth: 650,
   },
   tableScroll: {
-    maxHeight: "70vh",
+    maxHeight: '70vh',
   },
   tableContainer: {
-    tableLayout: "fixed",
-    whiteSpace: "nowrap",
+    tableLayout: 'fixed',
+    whiteSpace: 'nowrap',
   },
   tableHeaders: {
     height: 50,
@@ -53,7 +42,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const getTextBox = (label: string, variant: "h5" | "body1") => (
+const getTextBox = (label: string, variant: 'h5' | 'body1') => (
   <Typography component="div" variant={variant}>
     <Box>{label}</Box>
   </Typography>
@@ -63,7 +52,7 @@ function getTableHeader(
   key: any,
   type: SortType,
   props: { onClickSort: any; order: SortOrder; orderBy: any },
-  label: string
+  label: string,
 ) {
   const tableCellLabel = (
     <TableSortLabel
@@ -89,18 +78,7 @@ function getTableHeader(
   );
 }
 
-export const App = ({
-  app,
-  onLoadGetSurveys,
-  onClickSort,
-}: {
-  app: ContainerState;
-  onLoadGetSurveys: any;
-  onClickSort: any;
-}) => {
-  const { surveys, error, order, orderBy } = app;
-  useEffect(() => onLoadGetSurveys(), []);
-
+export const SurveyTable = ({ surveys, onClickSort, order, orderBy }) => {
   const classes = useStyles();
 
   const tableHeadProps = {
@@ -108,10 +86,6 @@ export const App = ({
     order,
     orderBy,
   };
-
-  if (error) {
-    console.log("unexpected error");
-  }
 
   return (
     <Paper>
@@ -124,22 +98,22 @@ export const App = ({
             stickyHeader
           >
             <colgroup>
-              <col style={{ width: "50%" }} />
-              <col style={{ width: "50%" }} />
+              <col style={{ width: '50%' }} />
+              <col style={{ width: '50%' }} />
             </colgroup>
             <TableHead className={classes.tableContainer}>
               <TableRow className={classes.tableHeaders}>
                 {getTableHeader(
-                  "id",
+                  'id',
                   SortType.TEXT_SORT_TYPE,
                   tableHeadProps,
-                  "SurveyId"
+                  'SurveyId',
                 )}
                 {getTableHeader(
-                  "score",
+                  'score',
                   SortType.NUMBER_SORT_TYPE,
                   tableHeadProps,
-                  "Score"
+                  'Score',
                 )}
               </TableRow>
             </TableHead>
@@ -147,9 +121,9 @@ export const App = ({
               {surveys.map((row) => {
                 return (
                   <TableRow key={row.id} className={classes.tableRow}>
-                    <TableCell>{getTextBox(row.id, "body1")}</TableCell>
+                    <TableCell>{getTextBox(row.id, 'body1')}</TableCell>
                     <TableCell>
-                      <TableCell>{getTextBox(row.score, "body1")}</TableCell>
+                      <TableCell>{getTextBox(row.score, 'body1')}</TableCell>
                     </TableCell>
                   </TableRow>
                 );
@@ -161,24 +135,3 @@ export const App = ({
     </Paper>
   );
 };
-
-const mapStateToProps = createStructuredSelector({
-  app: makeSelectApp(),
-});
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    onLoadGetSurveys: () => {
-      dispatch(getSurveys());
-    },
-    onClickSort: (columnKey: any, columnType: SortType) => {
-      dispatch(sortSurveys(columnKey, columnType));
-    },
-  };
-}
-
-export default compose(
-  injectReducer({ key: "app", reducer }),
-  injectSaga({ key: "app", saga }),
-  connect(mapStateToProps, mapDispatchToProps)
-);

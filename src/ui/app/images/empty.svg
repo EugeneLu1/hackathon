@@ -1,0 +1,15 @@
+<svg width="160" height="114" viewBox="0 0 160 114" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd"
+    d="M42.1978 83.0962C40.0101 82.7888 38.4859 80.766 38.7934 78.5783L49.2815 3.96364C49.589 1.77608 51.6116 0.251951 53.7992 0.559341L155.944 14.9125C158.132 15.2199 159.656 17.2427 159.349 19.4304L148.861 94.0451C148.553 96.2326 146.53 97.7567 144.343 97.4494L42.1978 83.0962Z"
+    fill="#CFDFF7" />
+  <rect x="1" y="30.3141" width="111.746" height="82.7418" rx="4" transform="rotate(-3 1 30.3141)" fill="white"
+    stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="200 4" />
+  <rect x="14.0287" y="52.4587" width="87" height="6.75443" rx="2" transform="rotate(-3 14.0287 52.4587)"
+    fill="#E8E8E8" />
+  <rect x="14.5589" y="62.5765" width="87" height="6.75443" rx="2" transform="rotate(-3 14.5589 62.5765)"
+    fill="#E8E8E8" />
+  <rect x="15.0892" y="72.6943" width="87" height="6.75443" rx="2" transform="rotate(-3 15.0892 72.6943)"
+    fill="#CFDFF7" />
+  <rect x="15.6194" y="82.812" width="87" height="6.75443" rx="2" transform="rotate(-3 15.6194 82.812)"
+    fill="#CFDFF7" />
+</svg>
